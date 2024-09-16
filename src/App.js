@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  Button,
+  FluentProvider,
+  webLightTheme,
+} from "@fluentui/react-components";
+import { useSongRanker } from "./hooks/useSongRanker";
 
 function App() {
+  const { pickBestSong, currentSortingStep } = useSongRanker(['song1', 'song2', 'song3', 'song4']);
+  const [leftSong, rightSong] = currentSortingStep;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <FluentProvider theme={webLightTheme}>
+      <header>
+        <h1>
+          The Era-nker
+        </h1>
       </header>
-    </div>
+      <Button size="large" onClick={() => pickBestSong(leftSong)}>{leftSong}</Button>
+      <Button size="large" onClick={() => pickBestSong(rightSong)}>{rightSong}</Button>
+    </FluentProvider>
   );
 }
 
