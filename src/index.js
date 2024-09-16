@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {sorter} from './sorter';
+import {sorterTruth} from './sorterTruth';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -17,3 +18,4 @@ root.render(
 reportWebVitals();
 
 console.log(sorter());
+console.log(sorterTruth())
