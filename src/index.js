@@ -18,4 +18,4 @@ root.render(
 reportWebVitals();
 
 console.log(sorter());
-console.log(sorterTruth())
+//console.log(sorterTruth())
