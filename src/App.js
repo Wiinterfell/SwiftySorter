@@ -1,23 +1,30 @@
 import {
-  Button,
   FluentProvider,
+  makeStyles,
   webLightTheme,
 } from "@fluentui/react-components";
-import { useSongRanker } from "./hooks/useSongRanker";
+import { SongRanker } from "./components/SongRanker";
+import taylor from './taylorswift.json';
+
+const useStyles = makeStyles({
+  title: {
+    textAlign: "center",
+    fontSize: "5rem",
+    lineHeight: "normal",
+  },
+});
 
 function App() {
-  const { pickBestSong, currentSortingStep } = useSongRanker(['song1', 'song2', 'song3', 'song4']);
-  const [leftSong, rightSong] = currentSortingStep;
+  const classes = useStyles();
 
   return (
     <FluentProvider theme={webLightTheme}>
       <header>
-        <h1>
+        <h1 className={classes.title}>
           The Era-nker
         </h1>
       </header>
-      <Button size="large" onClick={() => pickBestSong(leftSong)}>{leftSong}</Button>
-      <Button size="large" onClick={() => pickBestSong(rightSong)}>{rightSong}</Button>
+      <SongRanker songList={taylor.songs} />
     </FluentProvider>
   );
 }

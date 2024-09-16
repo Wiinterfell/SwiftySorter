@@ -17,7 +17,8 @@ export function useSongRanker(songList) {
   });
 
   const pickBestSong = (pickedSong) => {    
-    // Here we should continue the ranking and
+    // Here we should continue the ranking and then provide the next two songs to compare
+    alert('You picked ' + pickedSong);
 
     dispatch({ type: "showNewSortingStep", payload: ['song1', 'song2'] });
   };
