@@ -1,10 +1,10 @@
-import taylor from './taylorswift.json';
+var iteration;
 
-export function sorterTruth() {
-    var array = taylor.songs;
+export function sorterTruth(songs) {
+    var array = [...songs];
+    iteration = 0;
     mergeSort(array, array.length)
-
-    return array;
+    return iteration;
 }
 
 function mergeSort(arr , n) {
@@ -71,9 +71,7 @@ function merge(arr , l , m , r) {
     j = 0;
     k = l;
     while (i < n1 && j < n2) {
-        console.log(L[i]);
-        console.log(R[j]);
-        console.log("NEXT")
+        iteration++;
         if (L[i] <= R[j]) {
             arr[k] = L[i];
             i++;

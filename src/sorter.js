@@ -1,3 +1,5 @@
+import { sorterTruth } from "./sorterTruth";
+
 var array;
 var n;
 // For current size of subarrays to
@@ -12,8 +14,9 @@ var i, j, k;
 var n1, n2;
 var L, R;
 
+/*
 export function sorter() {
-    /*array = a;
+    array = a;
     n = array.length;
     mergeSortInit();
     mergeSortOneStep("Lover");
@@ -70,8 +73,8 @@ export function sorter() {
     mergeSortOneStep("Enchanted");
     mergeSortOneStep("Fifteen");
     mergeSortOneStep("Haunted");
-    mergeSortOneStep("I Bet You Think About Me");*/
-}
+    mergeSortOneStep("I Bet You Think About Me");
+}*/
 
 export function mergeSortInit(a) {
     array = a;
@@ -80,6 +83,14 @@ export function mergeSortInit(a) {
     curr_size = 1;
     left_start = 0;
     mergeSortInit2();
+
+    //var numberOfSteps = (n * Math.log2(n)) - n + 1;
+    //console.log(n);
+    //console.log(Math.log2(n));
+    console.log(a);
+    var numberOfSteps = sorterTruth(a);
+    console.log(numberOfSteps);
+
     return [L[i], R[j]];
 }
 
@@ -110,10 +121,10 @@ export function mergeSortOneStep(song) {
         console.log(R[j]);
         console.log("CHOOSE " + song)
         
-        if (song == R[j]) {
+        if (song === R[j]) {
             array[k] = R[j];
             j++;
-        } else if (song == L[i]) {
+        } else if (song === L[i]) {
             array[k] = L[i];
             i++;
         } else {
@@ -121,15 +132,15 @@ export function mergeSortOneStep(song) {
         }
         k++;
     } 
-    if (i == n1 || j == n2) {
-        if (j == n2) {
+    if (i === n1 || j === n2) {
+        if (j === n2) {
             while (i < n1) {
                 array[k] = L[i];
                 i++;
                 k++;
             }
         }
-        if (i == n1) {
+        if (i === n1) {
             while (j < n2) {
                 array[k] = R[j];
                 j++;
