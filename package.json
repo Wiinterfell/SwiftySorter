@@ -44,5 +44,11 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://wiinterfell.github.io/SwiftySorter"
+  "homepage": "https://wiinterfell.github.io/SwiftySorter",
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react": "^7.36.1",
+    "globals": "^15.9.0"
+  }
 }
