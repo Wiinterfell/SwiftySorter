@@ -87,22 +87,24 @@ function mergeSortInit() {
 }
 
 function mergeSortInit2() {
-    mid = Math.min(left_start + curr_size - 1, n - 1);
-    right_end = Math.min(left_start + 2 * curr_size - 1, n - 1);
+    if (curr_size <= n - 1) {
+        mid = Math.min(left_start + curr_size - 1, n - 1);
+        right_end = Math.min(left_start + 2 * curr_size - 1, n - 1);
 
-    n1 = mid - left_start + 1;
-    n2 = right_end - mid;
-    L = Array(n1).fill(0);
-    R = Array(n2).fill(0);
+        n1 = mid - left_start + 1;
+        n2 = right_end - mid;
+        L = Array(n1).fill(0);
+        R = Array(n2).fill(0);
 
-    i = 0;
-    j = 0;
-    k = left_start;
+        i = 0;
+        j = 0;
+        k = left_start;
 
-    for (var i1 = 0; i1 < n1; i1++)
-        L[i1] = array[left_start + i1];
-    for (var j2 = 0; j2 < n2; j2++)
-        R[j2] = array[mid + 1 + j2];
+        for (var i1 = 0; i1 < n1; i1++)
+            L[i1] = array[left_start + i1];
+        for (var j2 = 0; j2 < n2; j2++)
+            R[j2] = array[mid + 1 + j2];
+    }
 }
 
 function mergeSortOneStep(song) {
@@ -139,8 +141,10 @@ function mergeSortOneStep(song) {
         }
     
         left_start += 2 * curr_size;
-        mergeSortInit2()
-        if (left_start >= n - 1) {
+        if (left_start < n - 1) {
+            mergeSortInit2()
+        }
+        else {
             curr_size = 2 * curr_size;
             left_start = 0;
             mergeSortInit2()
