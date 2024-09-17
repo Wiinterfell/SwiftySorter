@@ -1,7 +1,7 @@
-import { sorterTruth } from "./sorterTruth";
-
 var array;
 var n;
+var iteration;
+var numberOfSteps;
 // For current size of subarrays to
 // be merged curr_size varies from
 // 1 to n/2
@@ -84,14 +84,12 @@ export function mergeSortInit(a) {
     left_start = 0;
     mergeSortInit2();
 
-    //var numberOfSteps = (n * Math.log2(n)) - n + 1;
-    //console.log(n);
-    //console.log(Math.log2(n));
-    console.log(a);
-    var numberOfSteps = sorterTruth(a);
-    console.log(numberOfSteps);
+    iteration = 0;
+    numberOfSteps = Math.trunc((n * Math.log2(n)) - n + 1);
+    //var numberOfSteps = sorterTruth(a);
+    console.log("Number of steps " + numberOfSteps);
 
-    return [L[i], R[j]];
+    return [L[i], R[j], iteration / numberOfSteps];
 }
 
 function mergeSortInit2() {
@@ -117,9 +115,12 @@ function mergeSortInit2() {
 
 export function mergeSortOneStep(song) {
     if (i < n1 && j < n2) {
+        iteration++;
         console.log(L[i]);
         console.log(R[j]);
         console.log("CHOOSE " + song)
+        var progress = iteration / numberOfSteps
+        console.log("Progress " + progress + "%")
         
         if (song === R[j]) {
             array[k] = R[j];
@@ -162,5 +163,5 @@ export function mergeSortOneStep(song) {
             }
         }
     }
-    return [L[i], R[j]];
+    return [L[i], R[j], progress];
 }

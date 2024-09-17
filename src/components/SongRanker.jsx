@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 export function SongRanker({ songList }) {
   const { pickBestSong, currentSortingStep } = useSongRanker(songList);
-  const [leftSong, rightSong] = currentSortingStep;
+  const [leftSong, rightSong] = currentSortingStep.slice(0,2);
   const classes = useStyles();
 
   return (
@@ -32,7 +32,7 @@ export function SongRanker({ songList }) {
       <ProgressBar
         className={classes.progressBar}
         thickness="large"
-        value={0.7}
+        value={currentSortingStep[2]}
         shape="square"
       />
     </>
