@@ -16,7 +16,7 @@ export class SupabaseErrorBoundary extends React.Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <MessageBar>
+        <MessageBar intent="error">
           <MessageBarBody>
             <MessageBarTitle>Oops! Something went wrong!</MessageBarTitle>
             {this.state.error.message}

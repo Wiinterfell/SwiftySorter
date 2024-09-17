@@ -34,6 +34,29 @@ function getSaveData() {
   }
 }
 
+export function loadSaveData(saveData) {
+  console.log("Restoring save data", saveData);
+  array = saveData.array;
+  n = saveData.n;
+  iteration = saveData.iteration;
+  numberOfSteps = saveData.numberOfSteps;
+  curr_size = saveData.curr_size;
+  left_start = saveData.left_start;
+  mid = saveData.mid;
+  right_end = saveData.right_end;
+  i = saveData.i;
+  j = saveData.j;
+  k = saveData.k;
+  n1 = saveData.n1;
+  n2 = saveData.n2;
+  L = saveData.L;
+  R = saveData.R;
+
+  return {
+    currentSortingStep: [L[i], R[j], iteration / numberOfSteps],
+  };
+}
+
 export function mergeSortInit(a) {
     array = a;
     n = array.length

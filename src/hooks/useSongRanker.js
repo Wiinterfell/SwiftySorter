@@ -1,5 +1,5 @@
 import React from "react";
-import { mergeSortInit, mergeSortOneStep } from "../sorter";
+import { loadSaveData, mergeSortInit, mergeSortOneStep } from "../sorter";
 
 /*
   state:
@@ -29,9 +29,15 @@ export function useSongRanker(songList) {
     }
   };
 
+  const restoreProgress = (saveData) => {
+    const { currentSortingStep } = loadSaveData(saveData);
+    dispatch({ type: "showNewSortingStep", payload: { currentSortingStep, saveData: undefined } });
+  };
+
   return {
     ...state,
     pickBestSong,
+    restoreProgress
   };
 }
 
