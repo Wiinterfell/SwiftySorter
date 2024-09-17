@@ -1,6 +1,7 @@
 import { Button, makeStyles, ProgressBar } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
+import { FinalTable } from "./FinalTable";
 
 const useStyles = makeStyles({
   root: {
@@ -37,7 +38,8 @@ export function SongRanker({ songList }) {
       <div className={classes.root}>
         <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(leftSong)}>{leftSong}</Button>
         <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(rightSong)}>{rightSong}</Button>
-      </div> : undefined }
+      </div> : 
+      <FinalTable songList={finalResult}/> }
       <ProgressBar
         className={classes.progressBar}
         thickness="large"
