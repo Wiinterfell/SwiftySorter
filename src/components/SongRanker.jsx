@@ -19,20 +19,21 @@ const useStyles = makeStyles({
 });
 
 export function SongRanker({ songList }) {
-  const { pickBestSong, currentSortingStep } = useSongRanker(songList);
-  const [leftSong, rightSong] = currentSortingStep;
+  const { pickBestSong, currentSortingStep, finalResult } = useSongRanker(songList);
+  const [leftSong, rightSong] = currentSortingStep ? currentSortingStep.slice(0,2) : [undefined, undefined];
   const classes = useStyles();
 
   return (
     <>
+      {!finalResult ? 
       <div className={classes.root}>
         <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(leftSong)}>{leftSong}</Button>
         <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(rightSong)}>{rightSong}</Button>
-      </div>
+      </div> : undefined }
       <ProgressBar
         className={classes.progressBar}
         thickness="large"
-        value={0.7}
+        value={currentSortingStep ? currentSortingStep[2] : 1}
         shape="square"
       />
     </>
