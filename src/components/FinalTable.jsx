@@ -1,6 +1,16 @@
-import { Table, TableBody, TableCell, TableCellLayout, TableHeader, TableHeaderCell, TableRow } from "@fluentui/react-components";
+import { makeStyles, Table, TableBody, TableCell, TableCellLayout, TableHeader, TableHeaderCell, TableRow } from "@fluentui/react-components";
+import React from "react";
+
+const useStyles = makeStyles({
+  root: {
+    margin: 'auto',
+    maxWidth: '900px',
+    minWidth: "510px"
+  },
+});
 
 export function FinalTable({songTable}) {
+    const classes = useStyles();
     const columns = [
         { columnKey: "rank", label: "Rank" },
         { columnKey: "song", label: "Song" }
@@ -9,7 +19,7 @@ export function FinalTable({songTable}) {
       const items = songTable.map((item, index) => ({ rank: index + 1, song: item }));
 
     return <div>
-    <Table arial-label="Default table" style={{ minWidth: "510px" }}>
+    <Table className={classes.root}>
       <TableHeader>
         <TableRow>
           {columns.map((column) => (
