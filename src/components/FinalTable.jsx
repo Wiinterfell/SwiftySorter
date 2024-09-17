@@ -1,12 +1,12 @@
 import { Table, TableBody, TableCell, TableCellLayout, TableHeader, TableHeaderCell, TableRow } from "@fluentui/react-components";
 
-export function FinalTable({songList}) {
+export function FinalTable({songTable}) {
     const columns = [
         { columnKey: "rank", label: "Rank" },
         { columnKey: "song", label: "Song" }
       ];
       
-      const items = songList.map((item, index) => ({ rank: index + 1, song: item }));
+      const items = songTable.map((item, index) => ({ rank: index + 1, song: item }));
 
     return <div>
     <Table arial-label="Default table" style={{ minWidth: "510px" }}>

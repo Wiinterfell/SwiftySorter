@@ -29,10 +29,10 @@ function App() {
           <Nav/>
           <header>
             <h1 className={classes.title}>
-              The Era-nker
+              Taylor Swift song ranker
             </h1>
           </header>
-          <SongRanker songList={taylor.songs} />
+          <SongRanker songList={taylor} />
         </SupabaseErrorBoundary>
       </ClientContext.Provider>
     </FluentProvider>
