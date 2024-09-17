@@ -89,7 +89,7 @@ export function mergeSortInit(a) {
     //var numberOfSteps = sorterTruth(a);
     console.log("Number of steps " + numberOfSteps);
 
-    return [L[i], R[j], iteration / numberOfSteps];
+    return { currentSortingStep: [L[i], R[j], iteration / numberOfSteps] };
 }
 
 function mergeSortInit2() {
@@ -159,9 +159,9 @@ export function mergeSortOneStep(song) {
             mergeSortInit2()
             if (curr_size > n - 1) {
                 console.log("END");
-                return null;
+                return { finalResult: array };
             }
         }
     }
-    return [L[i], R[j], progress];
+    return { currentSortingStep: [L[i], R[j], progress] };
 }
