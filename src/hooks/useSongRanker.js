@@ -1,4 +1,5 @@
 import React from "react";
+import { mergeSortInit, mergeSortOneStep } from "../sorter";
 
 /*
   state:
@@ -12,15 +13,14 @@ import React from "react";
 */
 
 export function useSongRanker(songList) {
-  const [state, dispatch] = React.useReducer(reducer, {
-    currentSortingStep: [songList[0], songList[1]], // TODO these are the first two songs shown in the UX
-  });
+  const [state, dispatch] = React.useReducer(reducer, null, () => ({
+    currentSortingStep: mergeSortInit(songList), // TODO these are the first two songs shown in the UX
+  }));
 
-  const pickBestSong = (pickedSong) => {    
-    // Here we should continue the ranking and then provide the next two songs to compare
-    alert('You picked ' + pickedSong);
+  const pickBestSong = (pickedSong) => {
+    const nextSongs = mergeSortOneStep(pickedSong);
 
-    dispatch({ type: "showNewSortingStep", payload: ['song1', 'song2'] });
+    dispatch({ type: "showNewSortingStep", payload: nextSongs });
   };
 
   return {

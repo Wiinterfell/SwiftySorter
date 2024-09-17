@@ -1,5 +1,3 @@
-import taylor from './taylorswift.json';
-
 var array;
 var n;
 // For current size of subarrays to
@@ -15,7 +13,7 @@ var n1, n2;
 var L, R;
 
 export function sorter() {
-    array = taylor.songs;
+    /*array = a;
     n = array.length;
     mergeSortInit();
     mergeSortOneStep("Lover");
@@ -72,18 +70,17 @@ export function sorter() {
     mergeSortOneStep("Enchanted");
     mergeSortOneStep("Fifteen");
     mergeSortOneStep("Haunted");
-    mergeSortOneStep("I Bet You Think About Me");
-
-
-//    mergeSortOneStep("");
-
-    return array;
+    mergeSortOneStep("I Bet You Think About Me");*/
 }
 
-function mergeSortInit() {
+export function mergeSortInit(a) {
+    array = a;
+    n = array.length
+
     curr_size = 1;
     left_start = 0;
     mergeSortInit2();
+    return [L[i], R[j]];
 }
 
 function mergeSortInit2() {
@@ -107,7 +104,7 @@ function mergeSortInit2() {
     }
 }
 
-function mergeSortOneStep(song) {
+export function mergeSortOneStep(song) {
     if (i < n1 && j < n2) {
         console.log(L[i]);
         console.log(R[j]);
@@ -150,8 +147,9 @@ function mergeSortOneStep(song) {
             mergeSortInit2()
             if (curr_size > n - 1) {
                 console.log("END");
-                return "END";
+                return null;
             }
         }
     }
+    return [L[i], R[j]];
 }
