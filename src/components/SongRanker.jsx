@@ -1,4 +1,4 @@
-import { Button, makeStyles, ProgressBar } from "@fluentui/react-components";
+import { Card, CardHeader, CardPreview, makeStyles, ProgressBar, Text } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
 import { FinalTable } from "./FinalTable";
@@ -12,14 +12,20 @@ const useStyles = makeStyles({
     padding: "3rem",
     flexWrap: "wrap",
   },
-  button: {
-    fontSize: "2rem",
-    padding: "3rem",
+  card: {
     lineHeight: "normal",
-    height: "10rem",
-    minWidth: "350px",
-    flexBasis: 0,
-    flexGrow: 1,
+    height: "25rem",
+    width: "20rem",
+    //flexBasis: 0,
+    //flexGrow: 1,
+  },
+  album: {
+    width: "10rem",
+    height: "100%"
+  },
+  title: {
+    fontSize: "1.3rem",
+    lineHeight: "normal"
   },
   progressBar: {
     position: "fixed",
@@ -32,18 +38,38 @@ const useStyles = makeStyles({
 });
 
 export function SongRanker({ songList }) {
-  const { pickBestSong, currentSortingStep, finalResult, saveData } = useSongRanker(songList);
-  const [leftSong, rightSong] = currentSortingStep ? currentSortingStep.slice(0,2) : [undefined, undefined];
+  const { pickBestSong, currentSortingStep, finalResult, saveData } = useSongRanker(songList.songs.map(item => item.title));
+  var leftSong = undefined;
+  var rightSong = undefined;
+  var leftImage = undefined;
+  var rightImage = undefined;
+  if (!finalResult) {
+    [leftSong, rightSong] = currentSortingStep ? currentSortingStep.slice(0,2) : [undefined, undefined];
+    var left = songList.songs.find((item) => item.title === leftSong);
+    var right = songList.songs.find((item) => item.title === rightSong);
+    leftImage = songList.albums.find((a) => a.title === left.album).img;
+    rightImage = songList.albums.find((a) => a.title === right.album).img;
+  }
   const classes = useStyles();
 
   return (
     <>
       {!finalResult ? 
       <div className={classes.root}>
-        <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(leftSong)}>{leftSong}</Button>
-        <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(rightSong)}>{rightSong}</Button>
+        <Card className={classes.card} onClick={() => pickBestSong(leftSong)}> 
+          <CardPreview> 
+            <img src={leftImage} className={classes.album} alt="Album cover"/>
+          </CardPreview>
+          <CardHeader header={<Text weight="semibold" className={classes.title}>{leftSong}</Text>}/>
+        </Card>
+        <Card className={classes.card} onClick={() => pickBestSong(rightSong)}> 
+          <CardPreview> 
+            <img src={rightImage} className={classes.album} alt="Album cover"/>
+          </CardPreview>
+          <CardHeader header={<Text weight="semibold" className={classes.title}>{rightSong}</Text>}/>
+        </Card>
       </div> : 
-      <FinalTable songList={finalResult}/> }
+      <FinalTable songTable={finalResult}/> }
       <div className={classes.progressButton}>
         <SaveProgress saveData={saveData} />
       </div>
