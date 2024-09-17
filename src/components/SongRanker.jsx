@@ -11,11 +11,13 @@ const useStyles = makeStyles({
     flexWrap: "wrap",
   },
   button: {
-    fontSize: "2.5rem",
+    fontSize: "2rem",
     padding: "3rem",
-    width: "50%",
     lineHeight: "normal",
-    minWidth: "350px"
+    height: "10rem",
+    minWidth: "350px",
+    flexBasis: 0,
+    flexGrow: 1,
   },
   progressBar: {
     position: "fixed",
