@@ -1,5 +1,6 @@
 import { Button, makeStyles, ProgressBar } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
+import React from "react";
 
 const useStyles = makeStyles({
   root: {
