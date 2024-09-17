@@ -7,13 +7,18 @@ const useStyles = makeStyles({
     display: "flex",
     gap: "2rem",
     justifyContent: "center",
+    padding: "3rem",
+    flexWrap: "wrap",
   },
   button: {
-    fontSize: "3rem",
-    padding: "3rem"
+    fontSize: "2.5rem",
+    padding: "3rem",
+    width: "50%",
+    lineHeight: "normal",
+    minWidth: "350px"
   },
   progressBar: {
-    position: "absolute",
+    position: "fixed",
     bottom: "0",
     height: "1rem",
   }
