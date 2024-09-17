@@ -18,18 +18,25 @@ const useStyles = makeStyles({
   root: {
     overflow: "hidden",
     display: "flex",
-    height: "600px",
+    height: "100%",
+  },
+  content: {
+    flex: "1",
+    padding: "16px",
+    display: "grid",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
 });
 
-export function Nav() {
+export function Nav({children}) {
   const [isOpen, setIsOpen] = React.useState(true);
   const [session, setSession] = React.useState(null)
   const { supabaseClient } = useClientContext()
   const classes = useStyles();
 
   React.useEffect(() => {
-    supabaseClient.auth.getSession().then(({ data }) => {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
     })
 
@@ -40,7 +47,6 @@ export function Nav() {
     })
 
     return () => subscription.unsubscribe()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const renderHamburgerWithToolTip = () => {
@@ -52,10 +58,11 @@ export function Nav() {
   };
 
   return (
-    <div className={classes.root}><NavDrawer
-      open={isOpen}
-      type={"inline"}
-    >
+    <div className={classes.root}>
+      <NavDrawer
+        open={isOpen}
+        type={"inline"}
+      >
       <NavDrawerHeader>{renderHamburgerWithToolTip()}</NavDrawerHeader>
 
       <NavDrawerBody>
@@ -68,5 +75,11 @@ export function Nav() {
           </AppItem>
         ) : <LoginButton />}
       </NavDrawerBody>
-    </NavDrawer></div>);
+    </NavDrawer>
+      <div className={classes.content}>
+        {!isOpen && renderHamburgerWithToolTip()}
+
+        {children}
+      </div>
+    </div>);
 }

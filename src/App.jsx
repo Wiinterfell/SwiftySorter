@@ -8,6 +8,7 @@ import taylor from './taylorswift.json';
 import { ClientContext } from "./contexts/clientContext";
 import { supabaseClient } from "./clients/supabaseClient";
 import { Nav } from "./components/Nav";
+import React from "react"
 
 const useStyles = makeStyles({
   title: {
@@ -23,13 +24,14 @@ function App() {
   return (
     <FluentProvider theme={webLightTheme}>
       <ClientContext.Provider value={{ supabaseClient }}>
-      <Nav />
-      <header>
-        <h1 className={classes.title}>
-          The Era-nker
-        </h1>
-      </header>
-      <SongRanker songList={taylor.songs} />
+      <Nav>
+        <header>
+          <h1 className={classes.title}>
+            The Era-nker
+          </h1>
+        </header>
+        <SongRanker songList={taylor.songs} />
+      </Nav>
       </ClientContext.Provider>
     </FluentProvider>
   );
