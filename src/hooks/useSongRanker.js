@@ -16,15 +16,16 @@ import { mergeSortInit, mergeSortOneStep } from "../sorter";
 export function useSongRanker(songList) {
   const [state, dispatch] = React.useReducer(reducer, null, () => ({
     currentSortingStep: mergeSortInit(songList).currentSortingStep, 
-    finalResult: undefined
+    finalResult: undefined,
+    saveData: undefined,
   }));
 
   const pickBestSong = (pickedSong) => {
     var result = mergeSortOneStep(pickedSong)
     if (result.currentSortingStep) {
-      dispatch({ type: "showNewSortingStep", payload: result.currentSortingStep });
+      dispatch({ type: "showNewSortingStep", payload: { currentSortingStep: result.currentSortingStep, saveData: result.saveData } });
     } else {
-      dispatch({ type: "finalStep", payload: result.finalResult });
+      dispatch({ type: "finalStep", payload: { finalResult: result.finalResult, saveData: result.saveData } });
     }
   };
 
@@ -39,14 +40,16 @@ function reducer(state, action) {
     case 'showNewSortingStep': {
       return {
         ...state,
-        currentSortingStep: action.payload,
+        currentSortingStep: action.payload.currentSortingStep,
+        saveData: action.payload.saveData,
       };
     }
     case 'finalStep': {
       return {
         ...state,
         currentSortingStep: undefined,
-        finalResult: action.payload,
+        finalResult: action.payload.finalResult,
+        saveData: action.payload.saveData,
       };
     }
     default:

@@ -2,6 +2,7 @@ import { Button, makeStyles, ProgressBar } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
 import { FinalTable } from "./FinalTable";
+import { SaveProgress } from "./SaveProgress";
 
 const useStyles = makeStyles({
   root: {
@@ -24,11 +25,14 @@ const useStyles = makeStyles({
     position: "fixed",
     bottom: "0",
     height: "1rem",
+  },
+  progressButton: {
+    textAlign: "center",
   }
 });
 
 export function SongRanker({ songList }) {
-  const { pickBestSong, currentSortingStep, finalResult } = useSongRanker(songList);
+  const { pickBestSong, currentSortingStep, finalResult, saveData } = useSongRanker(songList);
   const [leftSong, rightSong] = currentSortingStep ? currentSortingStep.slice(0,2) : [undefined, undefined];
   const classes = useStyles();
 
@@ -40,6 +44,9 @@ export function SongRanker({ songList }) {
         <Button size="large" appearance="primary" shape="circular" className={classes.button} onClick={() => pickBestSong(rightSong)}>{rightSong}</Button>
       </div> : 
       <FinalTable songList={finalResult}/> }
+      <div className={classes.progressButton}>
+        <SaveProgress saveData={saveData} />
+      </div>
       <ProgressBar
         className={classes.progressBar}
         thickness="large"

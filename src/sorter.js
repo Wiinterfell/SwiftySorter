@@ -14,67 +14,25 @@ var i, j, k;
 var n1, n2;
 var L, R;
 
-/*
-export function sorter() {
-    array = a;
-    n = array.length;
-    mergeSortInit();
-    mergeSortOneStep("Lover");
-    mergeSortOneStep("Midnight rain");
-    mergeSortOneStep("Haunted");
-    mergeSortOneStep("Blank Space");
-    mergeSortOneStep("Fifteen");
-    mergeSortOneStep("Enchanted");
-    mergeSortOneStep("Death By A Thousand Cuts");
-    mergeSortOneStep("Anti-Hero");
-    mergeSortOneStep("Lover");
-    mergeSortOneStep("Midnight rain");
-    mergeSortOneStep("betty");
-    mergeSortOneStep("Blank Space");
-    mergeSortOneStep("Haunted");
-    mergeSortOneStep("My Boy Only Breaks His Favorite Toys");
-    mergeSortOneStep("Enchanted");
-    mergeSortOneStep("Fifteen");
-    mergeSortOneStep("Karma");
-    mergeSortOneStep("Anti-Hero");
-    mergeSortOneStep("Death By A Thousand Cuts");
-    mergeSortOneStep("Lavender Haze");
-    mergeSortOneStep("Blank Space");
-    mergeSortOneStep("Haunted");
-    mergeSortOneStep("Lover");
-    mergeSortOneStep("Midnight rain");
-    mergeSortOneStep("My Boy Only Breaks His Favorite Toys");
-    mergeSortOneStep("Wildest Dreams");
-    mergeSortOneStep("Anti-Hero");
-    mergeSortOneStep("Death By A Thousand Cuts");
-    mergeSortOneStep("Enchanted");
-    mergeSortOneStep("Fifteen");
-    mergeSortOneStep("Karma");
-    mergeSortOneStep("Lavender Haze");
-    mergeSortOneStep("Sparks Fly");
-    mergeSortOneStep("Anti-Hero");
-    mergeSortOneStep("Blank Space");
-    mergeSortOneStep("Death By A Thousand Cuts");
-    mergeSortOneStep("Enchanted");
-    mergeSortOneStep("Fifteen");
-    mergeSortOneStep("Haunted");
-    mergeSortOneStep("Karma");
-    mergeSortOneStep("Lavender Haze");
-    mergeSortOneStep("Lover");
-    mergeSortOneStep("Midnight rain");
-    mergeSortOneStep("My Boy Only Breaks His Favorite Toys");
-    mergeSortOneStep("Sparks Fly");
-    mergeSortOneStep("Wildest Dreams");
-    mergeSortOneStep("betty");
-    mergeSortOneStep("hoax");
-    mergeSortOneStep("Anti-Hero");
-    mergeSortOneStep("Blank Space");
-    mergeSortOneStep("Death By A Thousand Cuts");
-    mergeSortOneStep("Enchanted");
-    mergeSortOneStep("Fifteen");
-    mergeSortOneStep("Haunted");
-    mergeSortOneStep("I Bet You Think About Me");
-}*/
+function getSaveData() {
+  return {
+    array,
+    n,
+    iteration,
+    numberOfSteps,
+    curr_size,
+    left_start,
+    mid,
+    right_end,
+    i,
+    j,
+    k,
+    n1,
+    n2,
+    L,
+    R
+  }
+}
 
 export function mergeSortInit(a) {
     array = a;
@@ -86,10 +44,12 @@ export function mergeSortInit(a) {
 
     iteration = 0;
     numberOfSteps = Math.trunc((n * Math.log2(n)) - n + 1);
-    //var numberOfSteps = sorterTruth(a);
     console.log("Number of steps " + numberOfSteps);
 
-    return { currentSortingStep: [L[i], R[j], iteration / numberOfSteps] };
+    return {
+      currentSortingStep: [L[i], R[j],
+      iteration / numberOfSteps],
+    };
 }
 
 function mergeSortInit2() {
@@ -163,5 +123,5 @@ export function mergeSortOneStep(song) {
             }
         }
     }
-    return { currentSortingStep: [L[i], R[j], progress] };
+    return { currentSortingStep: [L[i], R[j], progress], saveData: getSaveData() };
 }

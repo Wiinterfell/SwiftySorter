@@ -32,7 +32,7 @@ export function Nav() {
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, []);
 
   return (
     <div className={classes.root}>
