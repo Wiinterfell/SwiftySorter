@@ -10,7 +10,6 @@ import { supabaseClient } from "./clients/supabaseClient";
 import { Nav } from "./components/AccountDetails";
 import React from "react"
 import { SupabaseErrorBoundary } from "./components/SupaBaseErrorBoundary";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "./components/SessionProvider";
 
 const useStyles = makeStyles({
@@ -21,13 +20,10 @@ const useStyles = makeStyles({
   },
 });
 
-const queryClient = new QueryClient()
-
 function App() {
   const classes = useStyles();
 
   return (
-    <QueryClientProvider client={queryClient}>
       <FluentProvider theme={webLightTheme}>
         <ClientContext.Provider value={{ supabaseClient }}>
           <SessionProvider>
@@ -43,7 +39,6 @@ function App() {
           </SessionProvider>
         </ClientContext.Provider>
       </FluentProvider>
-    </QueryClientProvider>
   );
 }
 

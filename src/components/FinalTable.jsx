@@ -7,17 +7,16 @@ const useStyles = makeStyles({
     justifyContent: "center",
     flexWrap: "wrap",
     gap: "10rem",
-    maxWidth: "1500px",
     marginTop: "2rem",
     marginBottom: "5rem"
   },
   root: {
     flexGrow: 2,
-    maxWidth: "600px",
+    maxWidth: "800px"
   },
   root2: {
     flexGrow: 1,
-    maxWidth: "400px",
+    maxWidth: "600px"
   },
   album: {
     width: "2rem",
@@ -28,8 +27,8 @@ const useStyles = makeStyles({
 export function FinalTable({songTable, orderedAlbums}) {
     const classes = useStyles();
     const columns = [
-        { columnKey: "rank", label: "Rank" },
-        { columnKey: "song", label: "Song" }
+      { columnKey: "rank", label: "Rank" },
+      { columnKey: "song", label: "Song" }
       ];
     const columnsAlb = [
         { columnKey: "rank", label: "Rank" },

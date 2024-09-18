@@ -1,4 +1,4 @@
-import { Button, makeStyles, MessageBar, MessageBarActions, MessageBarBody, MessageBarTitle, ProgressBar, Card, CardHeader, CardPreview, Text } from "@fluentui/react-components";
+import { Button, makeStyles, MessageBar, MessageBarActions, MessageBarBody, MessageBarTitle, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
 import { FinalTable } from "./FinalTable";
@@ -6,8 +6,8 @@ import { SaveProgress } from "./SaveProgress";
 import { useClientContext } from "../contexts/clientContext";
 import { DismissRegular } from "@fluentui/react-icons";
 import { loadProgressData } from "../queries/progressData";
-import { getOrderedAlbums } from "../albumRanker";
 import { useSession } from "./SessionProvider";
+import { loadSongData } from "../queries/songData";
 
 const useStyles = makeStyles({
   root: {
@@ -46,26 +46,19 @@ const useStyles = makeStyles({
   }
 });
 
-export function SongRanker({ songList }) {
-  const { pickBestSong, currentSortingStep, finalResult, saveData, restoreProgress } = useSongRanker(songList.songs.map(item => item.title));
-  var leftSong = undefined;
-  var rightSong = undefined;
-  var leftImage = undefined;
-  var rightImage = undefined;
-  var albums = undefined;
-  if (!finalResult) {
-    [leftSong, rightSong] = currentSortingStep ? currentSortingStep.slice(0,2) : [undefined, undefined];
-    var left = songList.songs.find((item) => item.title === leftSong);
-    var right = songList.songs.find((item) => item.title === rightSong);
-    leftImage = songList.albums.find((a) => a.title === left.album).img;
-    rightImage = songList.albums.find((a) => a.title === right.album).img;
-  } else {
-    albums = getOrderedAlbums(finalResult, songList);
-  }
+export function SongRanker() {
+  const { pickBestSong, progress, left, right, albums, finalResult, saveData, restoreProgress, setLoadedSongList } = useSongRanker();
+  
   const classes = useStyles();
   const { supabaseClient } = useClientContext();
   const [restoreProgressData, setRestoreProgressData] = React.useState(null);
   const session = useSession();
+  
+  React.useEffect(() => {
+    loadSongData(supabaseClient).then((songlist) => { 
+      setLoadedSongList(songlist);
+    });
+  }, []);
 
   React.useEffect(() => {
     if (!restoreProgressData && !!session) {
@@ -87,8 +80,12 @@ export function SongRanker({ songList }) {
   }
   
 
+  if (!left) {
+    return <Spinner/>;
+  }
+
   return (
-    <>
+    <> 
       { !!restoreProgressData && (
         <MessageBar intent="info" className={classes.restoreProgressMessageBar}>
         <MessageBarBody>
@@ -111,15 +108,15 @@ export function SongRanker({ songList }) {
       {!finalResult ? 
       <div className={classes.root}>
         <div>
-          <Card className={classes.card} onClick={() => pickBestSong(leftSong)}> 
+          <Card className={classes.card} onClick={() => pickBestSong(left.title)}> 
             <CardPreview> 
-              <img src={leftImage} className={classes.album} alt="Album cover"/>
+              <img src={left.img} className={classes.album} alt="Album cover"/>
             </CardPreview>
-            <CardHeader header={<Text weight="semibold" className={classes.title}>{leftSong}</Text>}/>
+            <CardHeader header={<Text weight="semibold" className={classes.title}>{left.title}</Text>}/>
           </Card>
           <iframe 
             style={{borderRadius:12}} 
-            src={"https://open.spotify.com/embed/track/" + left.spotify + "?utm_source=generator"} 
+            src={"https://open.spotify.com/embed/track/" + left.spotifyId + "?utm_source=generator"} 
             width="100%" 
             height="100" 
             frameBorder="0" 
@@ -130,15 +127,15 @@ export function SongRanker({ songList }) {
           </iframe>
         </div>
         <div>
-          <Card className={classes.card} onClick={() => pickBestSong(rightSong)}> 
+          <Card className={classes.card} onClick={() => pickBestSong(right.title)}> 
             <CardPreview> 
-              <img src={rightImage} className={classes.album} alt="Album cover"/>
+              <img src={right.img} className={classes.album} alt="Album cover"/>
             </CardPreview>
-            <CardHeader header={<Text weight="semibold" className={classes.title}>{rightSong}</Text>}/>
+            <CardHeader header={<Text weight="semibold" className={classes.title}>{right.title}</Text>}/>
           </Card>
           <iframe 
             style={{borderRadius:12}} 
-            src={"https://open.spotify.com/embed/track/" + right.spotify + "?utm_source=generator"} 
+            src={"https://open.spotify.com/embed/track/" + right.spotifyId + "?utm_source=generator"} 
             width="100%" 
             height="100" 
             frameBorder="0" 
@@ -157,7 +154,7 @@ export function SongRanker({ songList }) {
       <ProgressBar
         className={classes.progressBar}
         thickness="large"
-        value={currentSortingStep ? currentSortingStep[2] : 1}
+        value={progress}
         shape="square"
       />
     </>
