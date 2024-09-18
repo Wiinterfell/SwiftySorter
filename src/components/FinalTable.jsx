@@ -2,11 +2,22 @@ import { makeStyles, Table, TableBody, TableCell, TableCellLayout, TableHeader, 
 import React from "react";
 
 const useStyles = makeStyles({
-  root: {
-    margin: 'auto',
-    maxWidth: '600px',
-    minWidth: "510px",
+  top: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: "10rem",
+    maxWidth: "1500px",
+    marginTop: "2rem",
     marginBottom: "5rem"
+  },
+  root: {
+    flexGrow: 2,
+    maxWidth: "600px",
+  },
+  root2: {
+    flexGrow: 1,
+    maxWidth: "400px",
   },
   album: {
     width: "2rem",
@@ -29,9 +40,9 @@ export function FinalTable({songTable, orderedAlbums}) {
     const items = songTable.map((item, index) => ({ rank: index + 1, song: item }));
     const itemsAlb = orderedAlbums.map((item, index) => ({ rank: index + 1, album: item, score: item[1].score }));
 
-    return <div>
-    <div>
-      <Table className={classes.root}>
+    return <div className={classes.top}>
+      <div className={classes.root}>
+      <Table>
         <TableHeader>
           <TableRow>
             {columns.map((column) => (
@@ -54,9 +65,9 @@ export function FinalTable({songTable, orderedAlbums}) {
           ))}
         </TableBody>
       </Table>
-    </div>
-    <div>
-      <Table className={classes.root}>
+      </div>
+      <div className={classes.root2}>
+      <Table>
         <TableHeader>
           <TableRow>
             {columnsAlb.map((column) => (
@@ -84,6 +95,6 @@ export function FinalTable({songTable, orderedAlbums}) {
           ))}
         </TableBody>
       </Table>
-    </div>
+      </div>
   </div>
 }
