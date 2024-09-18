@@ -142,7 +142,7 @@ export function mergeSortOneStep(song) {
             mergeSortInit2()
             if (curr_size > n - 1) {
                 console.log("END");
-                return { finalResult: array };
+                return { finalResult: array, saveData: { finalResult: array } };
             }
         }
     }

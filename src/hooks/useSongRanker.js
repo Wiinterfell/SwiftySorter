@@ -41,13 +41,18 @@ export function useSongRanker(songList) {
   };
 
   const restoreProgress = (saveData) => {
-    const { currentSortingStep } = loadSaveData(saveData);
-    const [leftSong, rightSong] = currentSortingStep.slice(0,2);
-    let  left = state.songList.songs.find((item) => item.title === leftSong);
-    let right = state.songList.songs.find((item) => item.title === rightSong);
-    left.img = state.songList.albums.find((a) => a.albumId === left.album).img;
-    right.img = state.songList.albums.find((a) => a.albumId === right.album).img;
-    dispatch({ type: "showNewSortingStep", payload: { progress: currentSortingStep[2], left, right, saveData: undefined } });
+    if (saveData.finalResult) {
+      const albums = getOrderedAlbums(saveData.finalResult, state.songList);
+      dispatch({ type: "finalStep", payload: { finalResult: saveData.finalResult, albums, saveData: undefined } });
+    } else {
+      const { currentSortingStep } = loadSaveData(saveData);
+      const [leftSong, rightSong] = currentSortingStep.slice(0,2);
+      let  left = state.songList.songs.find((item) => item.title === leftSong);
+      let right = state.songList.songs.find((item) => item.title === rightSong);
+      left.img = state.songList.albums.find((a) => a.albumId === left.album).img;
+      right.img = state.songList.albums.find((a) => a.albumId === right.album).img;
+      dispatch({ type: "showNewSortingStep", payload: { progress: currentSortingStep[2], left, right, saveData: undefined } });
+    }
   };
 
   const setLoadedSongList = (songList) => {
