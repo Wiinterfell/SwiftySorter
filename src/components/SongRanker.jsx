@@ -1,13 +1,11 @@
-import { Button, makeStyles, MessageBar, MessageBarActions, MessageBarBody, MessageBarTitle, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner } from "@fluentui/react-components";
+import { makeStyles, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
 import { FinalTable } from "./FinalTable";
 import { SaveProgress } from "./SaveProgress";
 import { useClientContext } from "../contexts/clientContext";
-import { DismissRegular } from "@fluentui/react-icons";
-import { loadProgressData } from "../queries/progressData";
-import { useSession } from "./SessionProvider";
 import { loadSongData } from "../queries/songData";
+import { RestoreProgressMessage } from "./RestoreProgressMessage";
 
 const useStyles = makeStyles({
   root: {
@@ -39,11 +37,6 @@ const useStyles = makeStyles({
   progressButton: {
     textAlign: "center",
   },
-  restoreProgressMessageBar: {
-    margin: 'auto',
-    width: '80%',
-    maxWidth: '1000px',
-  }
 });
 
 export function SongRanker() {
@@ -51,8 +44,6 @@ export function SongRanker() {
   
   const classes = useStyles();
   const { supabaseClient } = useClientContext();
-  const [restoreProgressData, setRestoreProgressData] = React.useState(null);
-  const session = useSession();
   
   React.useEffect(() => {
     loadSongData(supabaseClient).then((songlist) => { 
@@ -60,25 +51,9 @@ export function SongRanker() {
     });
   }, []);
 
-  React.useEffect(() => {
-    if (!restoreProgressData && !!session) {
-      // Load existing saved data
-      loadProgressData(supabaseClient)
-        .then((data) => {
-          setRestoreProgressData(data ? data[0] : undefined);
-        })
-        .catch((error) => {
-          console.error("Error loading progress data", error);
-          throw error;
-        });
-    }
-  }, [session]);
-
-  const onRestoreProgressClick = () => {
-    restoreProgress(restoreProgressData.save_data);
-    setRestoreProgressData(undefined);
+  const onRestoreProgressClick = (saveData) => {
+    restoreProgress(saveData);
   }
-  
 
   if (!left) {
     return <Spinner/>;
@@ -86,25 +61,7 @@ export function SongRanker() {
 
   return (
     <> 
-      { !!restoreProgressData && (
-        <MessageBar intent="info" className={classes.restoreProgressMessageBar}>
-        <MessageBarBody>
-          <MessageBarTitle>Welcome back! 🎵</MessageBarTitle>
-          We saved your progress. Want to pick up where you left off?
-        </MessageBarBody>
-        <MessageBarActions
-          containerAction={
-            <Button
-              aria-label="dismiss"
-              appearance="transparent"
-              icon={<DismissRegular />}
-            />
-          }
-        >
-         <Button onClick={onRestoreProgressClick}>Resume ranking</Button>
-        </MessageBarActions>
-      </MessageBar>
-      )}
+      <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />
       {!finalResult ? 
       <div className={classes.root}>
         <div>
