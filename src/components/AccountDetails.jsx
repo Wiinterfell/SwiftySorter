@@ -3,8 +3,8 @@ import {
   Persona,
 } from "@fluentui/react-components";
 import React from "react";
-import { useClientContext } from "../contexts/clientContext";
 import { LoginButton } from "./LoginButton";
+import { useSession } from "./SessionProvider";
 
 const useStyles = makeStyles({
   root: {
@@ -16,23 +16,8 @@ const useStyles = makeStyles({
 });
 
 export function Nav() {
-  const [session, setSession] = React.useState(null)
-  const { supabaseClient } = useClientContext()
   const classes = useStyles();
-
-  React.useEffect(() => {
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
-
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-
-    return () => subscription.unsubscribe()
-  }, []);
+  const session = useSession();
 
   return (
     <div className={classes.root}>

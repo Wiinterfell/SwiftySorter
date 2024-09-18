@@ -7,6 +7,7 @@ import { useClientContext } from "../contexts/clientContext";
 import { DismissRegular } from "@fluentui/react-icons";
 import { loadProgressData } from "../queries/progressData";
 import { getOrderedAlbums } from "../albumRanker";
+import { useSession } from "./SessionProvider";
 
 const useStyles = makeStyles({
   root: {
@@ -64,22 +65,21 @@ export function SongRanker({ songList }) {
   const classes = useStyles();
   const { supabaseClient } = useClientContext();
   const [restoreProgressData, setRestoreProgressData] = React.useState(null);
+  const session = useSession();
 
   React.useEffect(() => {
-    supabaseClient.auth.getSession();
-
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange(async (event) => {
-      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
-        // Load existing saved data
-        const { data } = await loadProgressData(supabaseClient);
-        setRestoreProgressData(data ? data[0] : undefined);
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, []);
+    if (!restoreProgressData && !!session) {
+      // Load existing saved data
+      loadProgressData(supabaseClient)
+        .then((data) => {
+          setRestoreProgressData(data ? data[0] : undefined);
+        })
+        .catch((error) => {
+          console.error("Error loading progress data", error);
+          throw error;
+        });
+    }
+  }, [session]);
 
   const onRestoreProgressClick = () => {
     restoreProgress(restoreProgressData.save_data);

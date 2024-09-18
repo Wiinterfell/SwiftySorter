@@ -2,25 +2,12 @@ import { Button } from "@fluentui/react-components";
 import { LockClosedRegular, SaveRegular } from "@fluentui/react-icons";
 import React from "react";
 import { useClientContext } from "../contexts/clientContext";
+import { useSession } from "./SessionProvider";
 
 export function SaveProgress({ saveData }) {
   const { supabaseClient } = useClientContext();
   const [saving, setSaving] = React.useState(false);
-  const [session, setSession] = React.useState(null)
-
-  React.useEffect(() => {
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
-
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-
-    return () => subscription.unsubscribe()
-  }, []);
+  const session = useSession();
   
   const save = async () => {
     setSaving(true);
