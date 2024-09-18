@@ -46,7 +46,8 @@ export function SongRanker() {
   const { supabaseClient } = useClientContext();
   
   React.useEffect(() => {
-    loadSongData(supabaseClient).then((songlist) => { 
+    const dbName = (location.hostname === "localhost") ? "SmallSongs" : "Songs";
+    loadSongData(supabaseClient, dbName).then((songlist) => { 
       setLoadedSongList(songlist);
     });
   }, []);
