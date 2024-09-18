@@ -21,9 +21,11 @@ export function RestoreProgressMessage({ onRestoreClicked }) {
   const { data: restoredProgressData, isSuccess, isLoading } = useLoadProgress('taytay');
   const classes = useStyles();
   const { dispatchToast } = useToastController(toasterId);
+  const [hasRestored, setHasRestored] = React.useState(false);
 
   const onRestoreProgressClick = () => {
     onRestoreClicked(restoredProgressData.save_data);
+    setHasRestored(true);
     dispatchToast(
       <Toast>
         <ToastTitle>All set! 🎉</ToastTitle>
@@ -33,7 +35,7 @@ export function RestoreProgressMessage({ onRestoreClicked }) {
     );
   }
 
-  if (isLoading) {
+  if (isLoading || hasRestored) {
     return null;
   }
 
