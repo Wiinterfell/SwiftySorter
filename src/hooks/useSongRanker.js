@@ -42,7 +42,12 @@ export function useSongRanker(songList) {
 
   const restoreProgress = (saveData) => {
     const { currentSortingStep } = loadSaveData(saveData);
-    dispatch({ type: "showNewSortingStep", payload: { currentSortingStep, saveData: undefined } });
+    const [leftSong, rightSong] = currentSortingStep.slice(0,2);
+    let  left = state.songList.songs.find((item) => item.title === leftSong);
+    let right = state.songList.songs.find((item) => item.title === rightSong);
+    left.img = state.songList.albums.find((a) => a.albumId === left.album).img;
+    right.img = state.songList.albums.find((a) => a.albumId === right.album).img;
+    dispatch({ type: "showNewSortingStep", payload: { progress: currentSortingStep[2], left, right, saveData: undefined } });
   };
 
   const setLoadedSongList = (songList) => {

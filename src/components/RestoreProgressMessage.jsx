@@ -1,7 +1,8 @@
-import { Button, makeStyles, MessageBar, MessageBarActions, MessageBarBody, MessageBarTitle, Text } from "@fluentui/react-components";
+import { Button, makeStyles, MessageBar, MessageBarActions, MessageBarBody, MessageBarTitle, Text, Toast, ToastBody, ToastTitle, useToastController } from "@fluentui/react-components";
 import { useLoadProgress } from "../hooks/loadProgress.hook";
 import React from "react";
 import { DismissRegular } from "@fluentui/react-icons";
+import { toasterId } from "../App";
 
 
 const useStyles = makeStyles({
@@ -19,9 +20,17 @@ const useStyles = makeStyles({
 export function RestoreProgressMessage({ onRestoreClicked }) {
   const { data: restoredProgressData, isSuccess, isLoading } = useLoadProgress('taytay');
   const classes = useStyles();
+  const { dispatchToast } = useToastController(toasterId);
 
   const onRestoreProgressClick = () => {
     onRestoreClicked(restoredProgressData.save_data);
+    dispatchToast(
+      <Toast>
+        <ToastTitle>All set! 🎉</ToastTitle>
+        <ToastBody>Your progress has been restored. Ready to keep ranking those tunes?</ToastBody>
+      </Toast>,
+      { intent: "success" }
+    );
   }
 
   if (isLoading) {
