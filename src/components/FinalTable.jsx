@@ -8,6 +8,10 @@ const useStyles = makeStyles({
     minWidth: "510px",
     marginBottom: "5rem"
   },
+  album: {
+    width: "2rem",
+    height: "100%"
+  },
 });
 
 export function FinalTable({songTable, orderedAlbums}) {
@@ -23,7 +27,7 @@ export function FinalTable({songTable, orderedAlbums}) {
       ];
       
     const items = songTable.map((item, index) => ({ rank: index + 1, song: item }));
-    const itemsAlb = orderedAlbums.map((item, index) => ({ rank: index + 1, album: item[0], score: item[1].score }));
+    const itemsAlb = orderedAlbums.map((item, index) => ({ rank: index + 1, album: item, score: item[1].score }));
 
     return <div>
     <div>
@@ -70,7 +74,11 @@ export function FinalTable({songTable, orderedAlbums}) {
                   {item.rank}
                 </TableCellLayout>
               </TableCell>
-              <TableCell>{item.album}</TableCell>
+              <TableCell> 
+                <TableCellLayout media={<img src={item.album[1].img} className={classes.album} alt="Album cover"/>}>
+                  {item.album[0]}
+                </TableCellLayout>
+              </TableCell>
               <TableCell>{item.score}</TableCell>
             </TableRow>
           ))}
