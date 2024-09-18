@@ -4,7 +4,7 @@ export async function loadSongData(supabaseClient) {
     .select('*')
     .eq('artistId', 1);
   var songs = await supabaseClient
-    .from('Songs')
+    .from('SmallSongs') // Songs
     .select('*')
     .eq('artist', 1);
   var albums = await supabaseClient

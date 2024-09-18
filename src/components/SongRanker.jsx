@@ -55,7 +55,7 @@ export function SongRanker() {
     restoreProgress(saveData);
   }
 
-  if (!left) {
+  if (!left && !finalResult) {
     return <Spinner/>;
   }
 

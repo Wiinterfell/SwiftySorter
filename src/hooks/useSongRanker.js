@@ -35,7 +35,7 @@ export function useSongRanker(songList) {
       right.img = state.songList.albums.find((a) => a.albumId === right.album).img;
       dispatch({ type: "showNewSortingStep", payload: { progress: result.currentSortingStep[2], left, right, saveData: result.saveData } });
     } else {
-      const albums = getOrderedAlbums(finalResult, songList);
+      const albums = getOrderedAlbums(result.finalResult, state.songList);
       dispatch({ type: "finalStep", payload: { finalResult: result.finalResult, albums, saveData: result.saveData } });
     }
   };

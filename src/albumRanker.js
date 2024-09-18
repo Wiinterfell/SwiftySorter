@@ -3,7 +3,7 @@ export function getOrderedAlbums(orderedSongs, fullData) {
     var albums = new Map(fullData.albums.map((item) => [item.title, {items: 0, score: 0, img: item.img}]));
     for (let i = 0; i < orderedSongs.length; i++) {
         const song = fullData.songs.find((item) => item.title === orderedSongs[i]);
-        const album = fullData.albums.find((a) => a.title === song.album).title;
+        const album = fullData.albums.find((a) => a.albumId === song.album).title;
         if (albums.get(album).items <= 15) {
             albums.get(album).score += size - i;
             albums.get(album).items++;
