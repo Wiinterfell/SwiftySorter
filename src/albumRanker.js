@@ -4,7 +4,7 @@ export function getOrderedAlbums(orderedSongs, fullData) {
     for (let i = 0; i < orderedSongs.length; i++) {
         const song = fullData.songs.find((item) => item.title === orderedSongs[i]);
         const album = fullData.albums.find((a) => a.title === song.album).title;
-        if (albums.get(album).items <= 13) {
+        if (albums.get(album).items <= 15) {
             albums.get(album).score += size - i;
             albums.get(album).items++;
         }
