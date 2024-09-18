@@ -6,6 +6,7 @@ import { SaveProgress } from "./SaveProgress";
 import { useClientContext } from "../contexts/clientContext";
 import { DismissRegular } from "@fluentui/react-icons";
 import { loadProgressData } from "../queries/progressData";
+import { getOrderedAlbums } from "../albumRanker";
 
 const useStyles = makeStyles({
   root: {
@@ -20,8 +21,6 @@ const useStyles = makeStyles({
     height: "25rem",
     width: "20rem",
     marginBottom: "1rem"
-    //flexBasis: 0,
-    //flexGrow: 1,
   },
   album: {
     width: "10rem",
@@ -52,12 +51,15 @@ export function SongRanker({ songList }) {
   var rightSong = undefined;
   var leftImage = undefined;
   var rightImage = undefined;
+  var albums = undefined;
   if (!finalResult) {
     [leftSong, rightSong] = currentSortingStep ? currentSortingStep.slice(0,2) : [undefined, undefined];
     var left = songList.songs.find((item) => item.title === leftSong);
     var right = songList.songs.find((item) => item.title === rightSong);
     leftImage = songList.albums.find((a) => a.title === left.album).img;
     rightImage = songList.albums.find((a) => a.title === right.album).img;
+  } else {
+    albums = getOrderedAlbums(finalResult, songList);
   }
   const classes = useStyles();
   const { supabaseClient } = useClientContext();
@@ -147,7 +149,7 @@ export function SongRanker({ songList }) {
           </iframe>
         </div>   
       </div> : 
-      <FinalTable songTable={finalResult}/> }
+      <FinalTable songTable={finalResult} orderedAlbums={albums}/> }
       { saveData && (<div className={classes.progressButton}>
         <SaveProgress saveData={saveData} />
       </div>
