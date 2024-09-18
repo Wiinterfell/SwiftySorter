@@ -1,6 +1,7 @@
 import {
   FluentProvider,
   makeStyles,
+  Toaster,
   webLightTheme,
 } from "@fluentui/react-components";
 import { SongRanker } from "./components/SongRanker";
@@ -15,10 +16,13 @@ import { SessionProvider } from "./components/SessionProvider";
 const useStyles = makeStyles({
   title: {
     textAlign: "center",
-    fontSize: "5rem",
+    fontSize: "4.5rem",
     lineHeight: "normal",
+    marginTop: 0,
   },
 });
+
+export const toasterId = "toaster";
 
 function App() {
   const classes = useStyles();
@@ -35,6 +39,7 @@ function App() {
                 </h1>
               </header>
               <SongRanker songList={taylor} />
+              <Toaster toasterId={toasterId} />
             </SupabaseErrorBoundary>
           </SessionProvider>
         </ClientContext.Provider>
