@@ -1,11 +1,11 @@
-export async function loadSongData(supabaseClient) {
+export async function loadSongData(supabaseClient, songDbName) {
   var taylor = await supabaseClient
     .from('Artists')
     .select('*')
     .eq('artistId', 1);
   var songs = await supabaseClient
-    .from('SmallSongs') // Songs
-    .select('*')
+    .from(songDbName)
+    .select('*') 
     .eq('artist', 1);
   var albums = await supabaseClient
     .from('Albums')
