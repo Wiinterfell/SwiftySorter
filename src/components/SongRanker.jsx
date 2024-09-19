@@ -118,14 +118,13 @@ export function SongRanker() {
           </div>
         </div>   
       </div> : 
-      <FinalTable songTable={finalResult} orderedAlbums={albums}/> }
-      { saveData && (<div className={classes.progressButton}>
-        <SaveProgress saveData={saveData} />
-        {finalResult ? 
-           <CreatePlaylist finalResult={finalResult} songList={songList}/> : <div/>
-        } 
-      </div>
-      )}
+      <div>
+        <div className={classes.progressButton}>
+          { saveData && (<SaveProgress saveData={saveData} />)}
+          <CreatePlaylist finalResult={finalResult} songList={songList}/> 
+        </div>
+        <FinalTable songTable={finalResult} orderedAlbums={albums}/>
+      </div> }
       <div>
         {!finalResult ? 
           <h2 class={classes.step}>{"Battle " + (iteration + 1)}</h2> : <div/>
