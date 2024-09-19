@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 
 export function RestoreProgressMessage({ onRestoreClicked }) {
-  const { data: restoredProgressData, isSuccess, isLoading } = useLoadProgress('taytay');
+  const { data: restoredProgressData, isSuccess } = useLoadProgress('taytay');
   const classes = useStyles();
   const { dispatchToast } = useToastController(toasterId);
   const [hasRestored, setHasRestored] = React.useState(false);
@@ -35,7 +35,7 @@ export function RestoreProgressMessage({ onRestoreClicked }) {
     );
   }
 
-  if (isLoading || hasRestored) {
+  if (!isSuccess || hasRestored) {
     return null;
   }
 
