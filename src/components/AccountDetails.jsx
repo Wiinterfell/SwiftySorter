@@ -31,7 +31,7 @@ export function Nav() {
           textAlignment="center"
           avatar={avatar ? {
             image: {
-              src: gravatar.url(session.user.email),
+              src: avatar,
             },
           } : undefined}
         />
