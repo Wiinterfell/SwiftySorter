@@ -49,6 +49,18 @@ const useStyles = makeStyles({
     fontWeight: "normal",
     paddingLeft: "0.5rem"
   },
+  signature: {
+    right: "0.5rem",
+    alignContent: "right",
+    fontSize: "0.8rem",
+    lineHeight: "normal",
+    marginBottom: 0,
+    bottom: "1.3rem",
+    position: "fixed",
+    color: "grey",
+    fontWeight: "normal",
+    "& a": { "&:visited": { "color": "grey" }, "color": "grey" }
+  },
 });
 
 export function SongRanker() {
@@ -58,7 +70,7 @@ export function SongRanker() {
   const { supabaseClient } = useClientContext();
   
   React.useEffect(() => {
-    const dbName = (location.hostname === "localhost") ? "SmallSongsTest" : "Songs";
+    const dbName = (location.hostname === "localhost") ? "SmallSongs" : "Songs";
     loadSongData(supabaseClient, dbName).then((songlist) => { 
       setLoadedSongList(songlist);
     });
@@ -132,6 +144,7 @@ export function SongRanker() {
         {!finalResult ? 
           <h2 class={classes.step}>{"Battle " + (iteration + 1)}</h2> : <div/>
         } 
+        <h2 class={classes.signature}>Made with ♥ by <a href="https://instagram.com/_CuriousFox" target="_blank">_CuriousFox</a></h2>
         <ProgressBar
             className={classes.progressBar}
             thickness="large"
