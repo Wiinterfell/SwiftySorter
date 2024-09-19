@@ -45,7 +45,8 @@ const useStyles = makeStyles({
     bottom: "1.3rem",
     position: "fixed",
     color: "grey",
-    fontWeight: "normal"
+    fontWeight: "normal",
+    paddingLeft: "0.5rem"
   },
 });
 
@@ -75,7 +76,6 @@ export function SongRanker() {
       <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />
       {!finalResult ? 
       <div>
-        <h3 class={classes.step}>{"Step #" + iteration}</h3>
         <div className={classes.root}>
           <div>
             <Card className={classes.card} onClick={() => pickBestSong(left.title)}> 
@@ -123,7 +123,7 @@ export function SongRanker() {
       </div>
       )}
       <div>
-        <h2 class={classes.step}>{"Step #" + iteration}</h2>
+        <h2 class={classes.step}>{"Battle " + (iteration + 1)}</h2>
         <ProgressBar
             className={classes.progressBar}
             thickness="large"
