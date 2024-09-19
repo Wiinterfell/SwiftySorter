@@ -32,7 +32,7 @@ export function CreatePlaylist({ finalResult, songList }) {
               if (i % 100 === 99) {
                 console.log(uris);
                 await sdk.playlists.addItemsToPlaylist(playlist.id, uris);
-                let uris = [];
+                uris = [];
               }
             }
             console.log(uris);
