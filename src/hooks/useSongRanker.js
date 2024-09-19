@@ -1,6 +1,7 @@
 import React from "react";
 import { loadSaveData, mergeSortInit, mergeSortOneStep } from "../sorter";
 import { getOrderedAlbums } from "../albumRanker";
+import { sorterTruth } from "../sorterTruth";
 
 /*
   state:
@@ -57,6 +58,10 @@ export function useSongRanker(songList) {
 
   const setLoadedSongList = (songList) => {
     const songTitles = songList.songs.map(item => item.title)
+
+    // Useful when needing to debug sorting algorithm
+    // const truth = sorterTruth(songTitles);
+
     const values = mergeSortInit(songTitles).currentSortingStep;
     let  left = songList.songs.find((item) => item.title === values[0]);
     let right = songList.songs.find((item) => item.title === values[1]);

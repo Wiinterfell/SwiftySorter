@@ -134,7 +134,10 @@ export function mergeSortOneStep(song) {
     
         left_start += 2 * curr_size;
         if (left_start < n - 1) {
-            mergeSortInit2()
+            mergeSortInit2();
+            if (R.length == 0) {
+                mergeSortOneStep("");
+            }
         }
         else {
             curr_size = 2 * curr_size;
