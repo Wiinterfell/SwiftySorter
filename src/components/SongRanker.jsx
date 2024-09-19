@@ -1,12 +1,12 @@
-import { makeStyles, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner, Field } from "@fluentui/react-components";
+import { makeStyles, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
 import { FinalTable } from "./FinalTable";
 import { SaveProgress } from "./SaveProgress";
-import { useClientContext } from "../contexts/clientContext";
-import { loadSongData } from "../queries/songData";
 import { RestoreProgressMessage } from "./RestoreProgressMessage";
 import { CreatePlaylist } from "./CreatePlaylist";
+import { useLoadProgress } from "../hooks/loadProgress.hook";
+import { useLoadSongs } from "../hooks/loadSongs.hook";
 
 const useStyles = makeStyles({
   root: {
@@ -67,26 +67,36 @@ export function SongRanker() {
   const { pickBestSong, progress, iteration, left, right, albums, finalResult, saveData, restoreProgress, setLoadedSongList, songList } = useSongRanker();
   
   const classes = useStyles();
-  const { supabaseClient } = useClientContext();
-  
+  const shouldAutomaticallyRestoreData = window.location.search.includes("restoreData=true");
+  const [hasRestored, setHasRestored] = React.useState(false);
+  const { data: restoredProgressData, isLoading: isProgressDataLoading } = useLoadProgress('taytay', !shouldAutomaticallyRestoreData || !songList);
+  const { data: songListData } = useLoadSongs((location.hostname === "localhost") ? "SmallSongs" : "Songs");
+  const isLoading = (!left && !finalResult) || (shouldAutomaticallyRestoreData && isProgressDataLoading)
+
   React.useEffect(() => {
-    const dbName = (location.hostname === "localhost") ? "SmallSongs" : "Songs";
-    loadSongData(supabaseClient, dbName).then((songlist) => { 
-      setLoadedSongList(songlist);
-    });
-  }, []);
+    if (shouldAutomaticallyRestoreData && restoredProgressData && !isLoading && !hasRestored) {
+      restoreProgress(restoredProgressData.save_data);
+      setHasRestored(true);
+    }
+  }, [restoredProgressData, shouldAutomaticallyRestoreData, isLoading]);
+
+  React.useEffect(() => {
+    if (songListData && !songList) {
+      setLoadedSongList(songListData);
+    }
+  }, [songListData]);
 
   const onRestoreProgressClick = (saveData) => {
     restoreProgress(saveData);
   }
 
-  if (!left && !finalResult) {
+  if (isLoading) {
     return <Spinner/>;
   }
 
   return (
     <> 
-      <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />
+      {!shouldAutomaticallyRestoreData && !!songList && <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />}
       {!finalResult ? 
       <div>
         <div className={classes.root}>
@@ -142,7 +152,7 @@ export function SongRanker() {
       </div> }
       <div>
         {!finalResult ? 
-          <h2 class={classes.step}>{"Battle " + (iteration + 1)}</h2> : <div/>
+          <h2 className={classes.step}>{"Battle " + (iteration + 1)}</h2> : <div/>
         } 
         <h2 class={classes.signature}>Made with ♥ by <a href="https://instagram.com/_CuriousFox" target="_blank">_CuriousFox</a></h2>
         <ProgressBar
