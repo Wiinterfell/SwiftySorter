@@ -6,6 +6,7 @@ import { SaveProgress } from "./SaveProgress";
 import { useClientContext } from "../contexts/clientContext";
 import { loadSongData } from "../queries/songData";
 import { RestoreProgressMessage } from "./RestoreProgressMessage";
+import { CreatePlaylist } from "./CreatePlaylist";
 
 const useStyles = makeStyles({
   root: {
@@ -51,7 +52,7 @@ const useStyles = makeStyles({
 });
 
 export function SongRanker() {
-  const { pickBestSong, progress, iteration, left, right, albums, finalResult, saveData, restoreProgress, setLoadedSongList } = useSongRanker();
+  const { pickBestSong, progress, iteration, left, right, albums, finalResult, saveData, restoreProgress, setLoadedSongList, songList } = useSongRanker();
   
   const classes = useStyles();
   const { supabaseClient } = useClientContext();
@@ -120,10 +121,15 @@ export function SongRanker() {
       <FinalTable songTable={finalResult} orderedAlbums={albums}/> }
       { saveData && (<div className={classes.progressButton}>
         <SaveProgress saveData={saveData} />
+        {finalResult ? 
+           <CreatePlaylist finalResult={finalResult} songList={songList}/> : <div/>
+        } 
       </div>
       )}
       <div>
-        <h2 class={classes.step}>{"Battle " + (iteration + 1)}</h2>
+        {!finalResult ? 
+          <h2 class={classes.step}>{"Battle " + (iteration + 1)}</h2> : <div/>
+        } 
         <ProgressBar
             className={classes.progressBar}
             thickness="large"
