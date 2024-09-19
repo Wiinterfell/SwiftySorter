@@ -13,8 +13,8 @@ const useStyles = makeStyles({
     display: "flex",
     gap: "2rem",
     justifyContent: "center",
-    padding: "3rem",
-    flexWrap: "wrap"
+    padding: "2rem",
+    flexWrap: "wrap",
   },
   card: {
     lineHeight: "normal",
@@ -58,7 +58,7 @@ export function SongRanker() {
   const { supabaseClient } = useClientContext();
   
   React.useEffect(() => {
-    const dbName = (location.hostname === "localhost") ? "SmallSongs" : "Songs";
+    const dbName = (location.hostname === "localhost") ? "SmallSongsTest" : "Songs";
     loadSongData(supabaseClient, dbName).then((songlist) => { 
       setLoadedSongList(songlist);
     });
@@ -116,6 +116,9 @@ export function SongRanker() {
               title="right">
             </iframe>
           </div>
+        </div>
+        <div className={classes.progressButton}>
+          { saveData && (<SaveProgress saveData={saveData} />)}
         </div>   
       </div> : 
       <div>
