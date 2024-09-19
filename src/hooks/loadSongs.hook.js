@@ -10,6 +10,5 @@ export function useLoadSongs(songDbName) {
   return useQuery({
     queryKey: ['songData'],
     queryFn: () => loadSongData(supabaseClient, songDbName),
-    enabled: !!session,
   })
 }
