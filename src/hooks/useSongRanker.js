@@ -18,7 +18,8 @@ import { sorterTruth } from "../sorterTruth";
 export function useSongRanker(songList) {
   const [state, dispatch] = React.useReducer(reducer, null, () => {
     return {
-      progress: undefined, 
+      progress: undefined,
+      iteration: undefined, 
       left: undefined,
       right: undefined,
       finalResult: undefined,
@@ -34,7 +35,7 @@ export function useSongRanker(songList) {
       let right = state.songList.songs.find((item) => item.title === rightSong);
       left.img = state.songList.albums.find((a) => a.albumId === left.album).img;
       right.img = state.songList.albums.find((a) => a.albumId === right.album).img;
-      dispatch({ type: "showNewSortingStep", payload: { progress: result.currentSortingStep[2], left, right, saveData: result.saveData } });
+      dispatch({ type: "showNewSortingStep", payload: { progress: result.currentSortingStep[2], iteration: result.currentSortingStep[3], left, right, saveData: result.saveData } });
     } else {
       const albums = getOrderedAlbums(result.finalResult, state.songList);
       dispatch({ type: "finalStep", payload: { finalResult: result.finalResult, albums, saveData: result.saveData } });
@@ -52,7 +53,7 @@ export function useSongRanker(songList) {
       let right = state.songList.songs.find((item) => item.title === rightSong);
       left.img = state.songList.albums.find((a) => a.albumId === left.album).img;
       right.img = state.songList.albums.find((a) => a.albumId === right.album).img;
-      dispatch({ type: "showNewSortingStep", payload: { progress: currentSortingStep[2], left, right, saveData: undefined } });
+      dispatch({ type: "showNewSortingStep", payload: { progress: currentSortingStep[2], iteration: currentSortingStep[3], left, right, saveData: undefined } });
     }
   };
 
@@ -67,7 +68,7 @@ export function useSongRanker(songList) {
     let right = songList.songs.find((item) => item.title === values[1]);
     left.img = songList.albums.find((a) => a.albumId === left.album).img;
     right.img = songList.albums.find((a) => a.albumId === right.album).img;
-    dispatch({ type: "setLoadedSongList", payload: { progress: values[2], left, right, songList }  })
+    dispatch({ type: "setLoadedSongList", payload: { progress: values[2], iteration: values[3], left, right, songList }  })
   };
 
   return {
@@ -84,6 +85,7 @@ function reducer(state, action) {
       return {
         ...state,
         progress: action.payload.progress,
+        iteration: action.payload.iteration,
         left: action.payload.left,
         right: action.payload.right,
         albums: undefined,
@@ -94,6 +96,7 @@ function reducer(state, action) {
       return {
         ...state,
         progress: 1,
+        iteration: 0,
         left: undefined,
         right: undefined,
         albums: action.payload.albums,
@@ -106,6 +109,7 @@ function reducer(state, action) {
         ...state,
         songList: action.payload.songList,
         progress: action.payload.progress,
+        iteration: action.payload.iteration,
         left: action.payload.left,
         right: action.payload.right,
         albums: undefined,

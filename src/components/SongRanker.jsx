@@ -1,4 +1,4 @@
-import { makeStyles, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner } from "@fluentui/react-components";
+import { makeStyles, ProgressBar, Card, CardHeader, CardPreview, Text, Spinner, Field } from "@fluentui/react-components";
 import { useSongRanker } from "../hooks/useSongRanker";
 import React from "react";
 import { FinalTable } from "./FinalTable";
@@ -13,13 +13,13 @@ const useStyles = makeStyles({
     gap: "2rem",
     justifyContent: "center",
     padding: "3rem",
-    flexWrap: "wrap",
+    flexWrap: "wrap"
   },
   card: {
     lineHeight: "normal",
     height: "25rem",
     width: "20rem",
-    marginBottom: "1rem"
+    marginBottom: "1rem",
   },
   album: {
     width: "10rem",
@@ -37,16 +37,26 @@ const useStyles = makeStyles({
   progressButton: {
     textAlign: "center",
   },
+  step: {
+    textAlign: "left",
+    fontSize: "0.8rem",
+    lineHeight: "normal",
+    marginBottom: 0,
+    bottom: "1.3rem",
+    position: "fixed",
+    color: "grey",
+    fontWeight: "normal"
+  },
 });
 
 export function SongRanker() {
-  const { pickBestSong, progress, left, right, albums, finalResult, saveData, restoreProgress, setLoadedSongList } = useSongRanker();
+  const { pickBestSong, progress, iteration, left, right, albums, finalResult, saveData, restoreProgress, setLoadedSongList } = useSongRanker();
   
   const classes = useStyles();
   const { supabaseClient } = useClientContext();
   
   React.useEffect(() => {
-    const dbName = (location.hostname === "localhost") ? "SmallSongsTest" : "Songs";
+    const dbName = (location.hostname === "localhost") ? "SmallSongs" : "Songs";
     loadSongData(supabaseClient, dbName).then((songlist) => { 
       setLoadedSongList(songlist);
     });
@@ -64,44 +74,47 @@ export function SongRanker() {
     <> 
       <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />
       {!finalResult ? 
-      <div className={classes.root}>
-        <div>
-          <Card className={classes.card} onClick={() => pickBestSong(left.title)}> 
-            <CardPreview> 
-              <img src={left.img} className={classes.album} alt="Album cover"/>
-            </CardPreview>
-            <CardHeader header={<Text weight="semibold" className={classes.title}>{left.title}</Text>}/>
-          </Card>
-          <iframe 
-            style={{borderRadius:12}} 
-            src={"https://open.spotify.com/embed/track/" + left.spotifyId + "?utm_source=generator"} 
-            width="100%" 
-            height="100" 
-            frameBorder="0" 
-            allowFullScreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"
-            title="left">
-          </iframe>
-        </div>
-        <div>
-          <Card className={classes.card} onClick={() => pickBestSong(right.title)}> 
-            <CardPreview> 
-              <img src={right.img} className={classes.album} alt="Album cover"/>
-            </CardPreview>
-            <CardHeader header={<Text weight="semibold" className={classes.title}>{right.title}</Text>}/>
-          </Card>
-          <iframe 
-            style={{borderRadius:12}} 
-            src={"https://open.spotify.com/embed/track/" + right.spotifyId + "?utm_source=generator"} 
-            width="100%" 
-            height="100" 
-            frameBorder="0" 
-            allowFullScreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"
-            title="right">
-          </iframe>
+      <div>
+        <h3 class={classes.step}>{"Step #" + iteration}</h3>
+        <div className={classes.root}>
+          <div>
+            <Card className={classes.card} onClick={() => pickBestSong(left.title)}> 
+              <CardPreview> 
+                <img src={left.img} className={classes.album} alt="Album cover"/>
+              </CardPreview>
+              <CardHeader header={<Text weight="semibold" className={classes.title}>{left.title}</Text>}/>
+            </Card>
+            <iframe 
+              style={{borderRadius:12}} 
+              src={"https://open.spotify.com/embed/track/" + left.spotifyId + "?utm_source=generator"} 
+              width="100%" 
+              height="100" 
+              frameBorder="0" 
+              allowFullScreen="" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+              title="left">
+            </iframe>
+          </div>
+          <div>
+            <Card className={classes.card} onClick={() => pickBestSong(right.title)}> 
+              <CardPreview> 
+                <img src={right.img} className={classes.album} alt="Album cover"/>
+              </CardPreview>
+              <CardHeader header={<Text weight="semibold" className={classes.title}>{right.title}</Text>}/>
+            </Card>
+            <iframe 
+              style={{borderRadius:12}} 
+              src={"https://open.spotify.com/embed/track/" + right.spotifyId + "?utm_source=generator"} 
+              width="100%" 
+              height="100" 
+              frameBorder="0" 
+              allowFullScreen="" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+              title="right">
+            </iframe>
+          </div>
         </div>   
       </div> : 
       <FinalTable songTable={finalResult} orderedAlbums={albums}/> }
@@ -109,12 +122,14 @@ export function SongRanker() {
         <SaveProgress saveData={saveData} />
       </div>
       )}
-      <ProgressBar
-        className={classes.progressBar}
-        thickness="large"
-        value={progress}
-        shape="square"
-      />
+      <div>
+        <h2 class={classes.step}>{"Step #" + iteration}</h2>
+        <ProgressBar
+            className={classes.progressBar}
+            thickness="large"
+            value={progress}
+            shape="square" />
+      </div>
     </>
   );
 }

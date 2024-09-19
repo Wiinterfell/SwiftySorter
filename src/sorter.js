@@ -53,7 +53,7 @@ export function loadSaveData(saveData) {
   R = saveData.R;
 
   return {
-    currentSortingStep: [L[i], R[j], iteration / numberOfSteps],
+    currentSortingStep: [L[i], R[j], iteration / numberOfSteps, iteration],
   };
 }
 
@@ -70,8 +70,7 @@ export function mergeSortInit(a) {
     console.log("Number of steps " + numberOfSteps);
 
     return {
-      currentSortingStep: [L[i], R[j],
-      iteration / numberOfSteps],
+      currentSortingStep: [L[i], R[j], iteration / numberOfSteps, iteration],
     };
 }
 
@@ -149,5 +148,5 @@ export function mergeSortOneStep(song) {
             }
         }
     }
-    return { currentSortingStep: [L[i], R[j], progress], saveData: getSaveData() };
+    return { currentSortingStep: [L[i], R[j], progress, iteration], saveData: getSaveData() };
 }
