@@ -5,6 +5,7 @@ import {
 import React from "react";
 import { LoginButton } from "./LoginButton";
 import { useSession } from "./SessionProvider";
+import gravatar from "gravatar";
 
 const useStyles = makeStyles({
   root: {
@@ -18,11 +19,22 @@ const useStyles = makeStyles({
 export function Nav() {
   const classes = useStyles();
   const session = useSession();
+  const avatar = session && session.user.email ? gravatar.url(session.user.email) : undefined;
 
   return (
     <div className={classes.root}>
       {session ? (
-        <Persona name={session.user.email} textPosition="before" size="extra-large" textAlignment="center" />
+        <Persona
+          name={session.user.email}
+          textPosition="before"
+          size="extra-large"
+          textAlignment="center"
+          avatar={avatar ? {
+            image: {
+              src: gravatar.url(session.user.email),
+            },
+          } : undefined}
+        />
       ) : <LoginButton />}
     </div>);
 }
