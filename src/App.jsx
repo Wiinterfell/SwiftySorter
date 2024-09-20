@@ -20,7 +20,15 @@ const useStyles = makeStyles({
     fontSize: "4.5rem",
     lineHeight: "normal",
     marginTop: 0,
+    marginBottom: "1rem"
   },
+  description: {
+    textAlign: "center",
+    color: "grey",
+    fontSize: "0.7rem",
+    lineHeight: "normal",
+    marginBottom: "2rem"
+  }
 });
 
 const queryClient = new QueryClient()
@@ -40,6 +48,11 @@ function App() {
                 <h1 className={classes.title}>
                   Taylor Swift song ranker
                 </h1>
+                <p className={classes.description}>
+                  Choose your favourite song from the two options to create the ultimate playlist of her entire discography, tailored just for you!
+                  <br/>
+                  Please note, this app isn't affiliated with or endorsed by Taylor Swift, and is not responsible for any inaccuracies.
+                </p>
               </header>
               <SongRanker songList={taylor} />
               <Toaster toasterId={toasterId} />
