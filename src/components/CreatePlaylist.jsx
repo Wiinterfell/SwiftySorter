@@ -11,6 +11,7 @@ import { useClientContext } from "../contexts/clientContext";
 export function CreatePlaylist({ finalResult, songList, saveData }) {
   const [connected, setConnected] = React.useState(sdk.currentUser);
   const [created, setCreated] = React.useState(false);
+  const [autoCreated, setAutoCreated] = React.useState(false);
   const { dispatchToast } = useToastController(toasterId);
   const session = useSession();
   const { supabaseClient } = useClientContext();
@@ -63,8 +64,9 @@ export function CreatePlaylist({ finalResult, songList, saveData }) {
   }
 
   React.useEffect(() => {
-    if (location.search.includes("createPlaylist=true") && !created) {
+    if (location.search.includes("createPlaylist=true") && !created && !autoCreated) {
       create();
+      setAutoCreated(true);
     }
   }, [])
 
