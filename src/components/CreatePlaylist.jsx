@@ -5,15 +5,22 @@ import { useSession } from "./SessionProvider";
 import { toasterId } from "../App";
 import { sdk } from "../clients/spotifyClient";
 import { Buffer } from "buffer";
+import { saveProgressData } from "../queries/progressData";
+import { useClientContext } from "../contexts/clientContext";
 
-export function CreatePlaylist({ finalResult, songList }) {
+export function CreatePlaylist({ finalResult, songList, saveData }) {
   const [connected, setConnected] = React.useState(sdk.currentUser);
   const [created, setCreated] = React.useState(false);
   const { dispatchToast } = useToastController(toasterId);
   const session = useSession();
+  const { supabaseClient } = useClientContext();
   
   const create = async () => {
     try {
+      // If we are authenticated, first Save progress
+      if (session && saveData) {
+        await saveProgressData(supabaseClient, 'taytay', saveData);
+      }
       await sdk.currentUser.profile().then(async function(data) {
         await sdk.playlists.createPlaylist(data.id, {
               name: "My Taylor Swift sorted songs",

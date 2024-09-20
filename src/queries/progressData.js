@@ -4,3 +4,9 @@ export async function loadProgressData(supabaseClient, artistId) {
     .select('*')
     .eq('artistId', artistId)
 }
+
+export function saveProgressData(supabaseClient, artistId, saveData) {
+  return supabaseClient
+  .from('SortingSaveData')
+  .upsert({ artistId, save_data: saveData });
+}

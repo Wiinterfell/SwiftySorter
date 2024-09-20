@@ -4,6 +4,7 @@ import React from "react";
 import { useClientContext } from "../contexts/clientContext";
 import { useSession } from "./SessionProvider";
 import { toasterId } from "../App";
+import { saveProgressData } from "../queries/progressData";
 
 export function SaveProgress({ saveData }) {
   const { supabaseClient } = useClientContext();
@@ -14,9 +15,7 @@ export function SaveProgress({ saveData }) {
   const save = async () => {
     setSaving(true);
     try {
-      await supabaseClient
-        .from('SortingSaveData')
-        .upsert({ artistId: 'taytay', save_data: saveData });
+      await saveProgressData(supabaseClient, 'taytay', saveData);
       notifySaved();
     } catch (error) {
       console.error('Error saving progress', error);
