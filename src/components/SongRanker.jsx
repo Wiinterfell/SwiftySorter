@@ -71,7 +71,8 @@ export function SongRanker() {
   const [hasRestored, setHasRestored] = React.useState(false);
   const { data: restoredProgressData, isLoading: isProgressDataLoading } = useLoadProgress('taytay', !shouldAutomaticallyRestoreData || !songList);
   const { data: songListData } = useLoadSongs((location.hostname === "localhost") ? "SmallSongs" : "Songs");
-  const isLoading = (!left && !finalResult) || (shouldAutomaticallyRestoreData && isProgressDataLoading)
+  const isLoading = (!left && !finalResult) || (shouldAutomaticallyRestoreData && isProgressDataLoading);
+  const showRestoreProgress = !shouldAutomaticallyRestoreData && !!songList && iteration === 0;
 
   React.useEffect(() => {
     if (shouldAutomaticallyRestoreData && restoredProgressData && !isLoading && !hasRestored) {
@@ -96,7 +97,7 @@ export function SongRanker() {
 
   return (
     <> 
-      {!shouldAutomaticallyRestoreData && !!songList && <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />}
+      {showRestoreProgress && <RestoreProgressMessage onRestoreClicked={onRestoreProgressClick} />}
       {!finalResult ? 
       <div>
         <div className={classes.root}>
