@@ -17,10 +17,6 @@ export function CreatePlaylist({ finalResult, songList, saveData }) {
   
   const create = async () => {
     try {
-      // If we are authenticated, first Save progress
-      if (session && saveData) {
-        await saveProgressData(supabaseClient, 'taytay', saveData);
-      }
       await sdk.currentUser.profile().then(async function(data) {
         await sdk.playlists.createPlaylist(data.id, {
               name: "My Taylor Swift sorted songs",
@@ -56,11 +52,21 @@ export function CreatePlaylist({ finalResult, songList, saveData }) {
   }
 
   const connect = async () => {
+    // If we are authenticated and have dirty progress data, first Save progress
+    if (session && saveData) {
+      await saveProgressData(supabaseClient, 'taytay', saveData);
+    }
     await sdk.currentUser.profile().then(function(data) {
       //console.log(data.id);
     });
     setConnected(true);
   }
+
+  React.useEffect(() => {
+    if (location.search.includes("createPlaylist=true") && !created) {
+      create();
+    }
+  }, [])
 
   const notifyCreated = () =>
     dispatchToast(
