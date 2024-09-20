@@ -154,7 +154,7 @@ export function SongRanker() {
         {!finalResult ? 
           <h2 className={classes.step}>{"Battle " + (iteration + 1)}</h2> : <div/>
         } 
-        <h2 class={classes.signature}>Made with ♥ by <a href="https://instagram.com/_CuriousFox" target="_blank">_CuriousFox</a></h2>
+        <h2 className={classes.signature}>Made with ♥ by <a href="https://instagram.com/_CuriousFox" target="_blank" rel="noreferrer">_CuriousFox</a></h2>
         <ProgressBar
             className={classes.progressBar}
             thickness="large"
