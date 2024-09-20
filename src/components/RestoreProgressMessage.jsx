@@ -22,6 +22,7 @@ export function RestoreProgressMessage({ onRestoreClicked }) {
   const classes = useStyles();
   const { dispatchToast } = useToastController(toasterId);
   const [hasRestored, setHasRestored] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
 
   const onRestoreProgressClick = () => {
     onRestoreClicked(restoredProgressData.save_data);
@@ -35,7 +36,7 @@ export function RestoreProgressMessage({ onRestoreClicked }) {
     );
   }
 
-  if (!isSuccess || hasRestored) {
+  if (!isSuccess || hasRestored || !visible) {
     return null;
   }
 
@@ -55,6 +56,7 @@ export function RestoreProgressMessage({ onRestoreClicked }) {
               aria-label="dismiss"
               appearance="transparent"
               icon={<DismissRegular />}
+              onClick={() => setVisible(false)}
             />
           }
         >
