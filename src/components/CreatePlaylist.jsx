@@ -1,5 +1,5 @@
 import { Button, Toast, ToastBody, ToastTitle, useToastController } from "@fluentui/react-components";
-import { CheckmarkCircleRegular, EditRegular, PersonPasskeyRegular } from "@fluentui/react-icons";
+import { CheckmarkCircleRegular, EditRegular, LockClosedRegular, PersonPasskeyRegular } from "@fluentui/react-icons";
 import React from "react";
 import { useSession } from "./SessionProvider";
 import { toasterId } from "../App";
@@ -55,6 +55,10 @@ export function CreatePlaylist({ finalResult, songList, saveData }) {
       </Toast>,
       { intent: "success" }
     );
+
+  if (!session) {
+    return <Button appearance="transparent" icon={<LockClosedRegular />} disabled onClick={connect}>Sign in to create a playlist</Button>
+  }
 
   return connected ? (
     <Button appearance="transparent" icon={!created ? <EditRegular /> : <CheckmarkCircleRegular />} onClick={create} disabled={created}>
