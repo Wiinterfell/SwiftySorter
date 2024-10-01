@@ -15,7 +15,7 @@ export function LoginButton() {
       <DialogBody>
         <DialogTitle>Sign in</DialogTitle>
         <DialogContent>
-          <Auth supabaseClient={supabaseClient} appearance={{ theme: ThemeSupa }} />
+          <Auth supabaseClient={supabaseClient} appearance={{ theme: ThemeSupa }} providers={[]} />
         </DialogContent>
       </DialogBody>
     </DialogSurface>
